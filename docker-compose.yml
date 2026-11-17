@@ -1,0 +1,17 @@
+name: "MirageSight sighting client"
+
+services:
+
+  mirage_client:
+    image: vuln_lookup_mirage_client
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP_IMAGE=python:3.11-slim
+    restart: "no"  # one run per call: schedule it once a day (cron, systemd timer)
+    environment:
+      - PYTHONUNBUFFERED=TRUE
+      - MIRAGESIGHT_CONFIG=/etc/conf.py
+    volumes:
+      - "./miragesight/conf.py:/etc/conf.py"
